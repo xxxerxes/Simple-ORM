@@ -1,0 +1,17 @@
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.csproj.AssemblyReference.cache
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.GeneratedMSBuildEditorConfig.editorconfig
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.AssemblyInfoInputs.cache
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.AssemblyInfo.cs
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.csproj.CoreCompileInputs.cache
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/DAL.deps.json
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/DAL.dll
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/DAL.pdb
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/Framework.dll
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/Model.dll
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/Framework.pdb
+/Users/xx/Documents/ORM/ORMDemo/DAL/bin/Debug/net6.0/Model.pdb
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.csproj.CopyComplete
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.dll
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/refint/DAL.dll
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/DAL.pdb
+/Users/xx/Documents/ORM/ORMDemo/DAL/obj/Debug/net6.0/ref/DAL.dll

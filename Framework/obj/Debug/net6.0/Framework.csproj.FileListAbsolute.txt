@@ -1,0 +1,12 @@
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.csproj.AssemblyReference.cache
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.GeneratedMSBuildEditorConfig.editorconfig
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.AssemblyInfoInputs.cache
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.AssemblyInfo.cs
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.csproj.CoreCompileInputs.cache
+/Users/xx/Documents/ORM/ORMDemo/Framework/bin/Debug/net6.0/Framework.deps.json
+/Users/xx/Documents/ORM/ORMDemo/Framework/bin/Debug/net6.0/Framework.dll
+/Users/xx/Documents/ORM/ORMDemo/Framework/bin/Debug/net6.0/Framework.pdb
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.dll
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/refint/Framework.dll
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/Framework.pdb
+/Users/xx/Documents/ORM/ORMDemo/Framework/obj/Debug/net6.0/ref/Framework.dll
