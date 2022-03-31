@@ -1319,11 +1319,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/xx/Documents/ORM/ORMDemo/Demo/Demo.csproj",
+      "projectUniqueName": "/Users/xx/Documents/github/Simple ORM/Demo/Demo.csproj",
       "projectName": "Demo",
-      "projectPath": "/Users/xx/Documents/ORM/ORMDemo/Demo/Demo.csproj",
+      "projectPath": "/Users/xx/Documents/github/Simple ORM/Demo/Demo.csproj",
       "packagesPath": "/Users/xx/.nuget/packages/",
-      "outputPath": "/Users/xx/Documents/ORM/ORMDemo/Demo/obj/",
+      "outputPath": "/Users/xx/Documents/github/Simple ORM/Demo/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/xx/.nuget/NuGet/NuGet.Config"
@@ -1338,11 +1338,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/xx/Documents/ORM/ORMDemo/DAL/DAL.csproj": {
-              "projectPath": "/Users/xx/Documents/ORM/ORMDemo/DAL/DAL.csproj"
+            "/Users/xx/Documents/github/Simple ORM/DAL/DAL.csproj": {
+              "projectPath": "/Users/xx/Documents/github/Simple ORM/DAL/DAL.csproj"
             },
-            "/Users/xx/Documents/ORM/ORMDemo/Model/Model.csproj": {
-              "projectPath": "/Users/xx/Documents/ORM/ORMDemo/Model/Model.csproj"
+            "/Users/xx/Documents/github/Simple ORM/Model/Model.csproj": {
+              "projectPath": "/Users/xx/Documents/github/Simple ORM/Model/Model.csproj"
             }
           }
         }

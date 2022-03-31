@@ -462,11 +462,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/xx/Documents/ORM/ORMDemo/Framework/Framework.csproj",
+      "projectUniqueName": "/Users/xx/Documents/github/Simple ORM/Framework/Framework.csproj",
       "projectName": "Framework",
-      "projectPath": "/Users/xx/Documents/ORM/ORMDemo/Framework/Framework.csproj",
+      "projectPath": "/Users/xx/Documents/github/Simple ORM/Framework/Framework.csproj",
       "packagesPath": "/Users/xx/.nuget/packages/",
-      "outputPath": "/Users/xx/Documents/ORM/ORMDemo/Framework/obj/",
+      "outputPath": "/Users/xx/Documents/github/Simple ORM/Framework/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/xx/.nuget/NuGet/NuGet.Config"

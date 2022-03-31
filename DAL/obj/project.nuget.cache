@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "az0+npGOOzQcJFHpT/fzSyDggU5NHzaBrxxL7KBWchsXuyjVEIVR8d1J9ztm4j1vYkgVmAIBXW1OvUmttWx9Mg==",
+  "dgSpecHash": "NhknHw6V9/G3PquXbzL8gdPlQufPLdmf8mBd0rjGBlCMvSfKMtbI3UF5DZYDqCB0ob2Fa2VI1/ccewkxTRrZrA==",
   "success": true,
-  "projectFilePath": "/Users/xx/Documents/ORM/ORMDemo/DAL/DAL.csproj",
+  "projectFilePath": "/Users/xx/Documents/github/Simple ORM/DAL/DAL.csproj",
   "expectedPackageFiles": [
     "/Users/xx/.nuget/packages/bouncycastle.netcore/1.8.5/bouncycastle.netcore.1.8.5.nupkg.sha512",
     "/Users/xx/.nuget/packages/google.protobuf/3.14.0/google.protobuf.3.14.0.nupkg.sha512",

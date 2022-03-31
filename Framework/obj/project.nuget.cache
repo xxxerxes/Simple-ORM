@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9DU/uzJVTyiuN9zbFtWZVp3SeSKNajln6yb1G5ggpGGtZ21jFDVbrzuUwjg1ncEQd+H+sxEi4Lg06whxW0mZug==",
+  "dgSpecHash": "u7Hqnq2u9/8150Enfa3IZ58FslDQJF9+Wy+2y9DOv0GgLEAgw1gx0wQLgFiumold7W7/ogd84dT+6nwuCySphw==",
   "success": true,
-  "projectFilePath": "/Users/xx/Documents/ORM/ORMDemo/Framework/Framework.csproj",
+  "projectFilePath": "/Users/xx/Documents/github/Simple ORM/Framework/Framework.csproj",
   "expectedPackageFiles": [
     "/Users/xx/.nuget/packages/microsoft.extensions.configuration/6.0.1/microsoft.extensions.configuration.6.0.1.nupkg.sha512",
     "/Users/xx/.nuget/packages/microsoft.extensions.configuration.abstractions/6.0.0/microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
