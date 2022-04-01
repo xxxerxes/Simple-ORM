@@ -1,0 +1,37 @@
+﻿<Properties StartupConfiguration="{85AA4737-6952-4998-B35E-6FF5E5A4EFFA}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Demo/Program.cs">
+    <Files>
+      <File FileName="DAL/SqlHelper.cs" Line="95" Column="19" />
+      <File FileName="Demo/Program.cs" Line="18" Column="35" />
+      <File FileName="Framework/Mapping/BaseMappingAttribute.cs" Line="6" Column="38" />
+      <File FileName="Framework/Mapping/DBMappingExtend.cs" Line="24" Column="31" />
+      <File FileName="Demo/appsettings.json" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ORMDemo" expanded="True">
+            <Node name="DAL" expanded="True" />
+            <Node name="Demo" expanded="True" />
+            <Node name="Framework" expanded="True">
+              <Node name="Mapping" expanded="True" />
+            </Node>
+            <Node name="Model" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Demo PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/xx/Documents/github/Simple ORM/Demo/Program.cs" relfile="Demo/Program.cs" line="17" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

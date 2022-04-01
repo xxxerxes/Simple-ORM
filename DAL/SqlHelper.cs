@@ -3,6 +3,7 @@ using Model;
 using Framework;
 using MySql.Data.MySqlClient;
 using Framework.Mapping;
+using Framework.DBFilter;
 
 namespace DAL
 {
@@ -11,6 +12,7 @@ namespace DAL
 
         private static string ConnectionStringCustomers = ConfigurationManager.SqlConnectionStringCustom;
 
+        #region 查询
         #region 原始版本 每个表写一个查询方法
         //public Company FindCompany(int id)
         //{
@@ -47,15 +49,20 @@ namespace DAL
             Type type = typeof(T);
 
             // 通过拓展方法获取特性里的名字
-            string colunmStrings = string.Join(",", type.GetProperties().Select(x => $"{x.GetMappingName()}"));
+            //string colunmStrings = string.Join(",", type.GetProperties().Select(x => $"{x.GetMappingName()}"));
+            //string sql = $@"SELECT {colunmStrings} From {type.GetMappingName()} WHERE Id = {id}";
 
-            string sql = $@"SELECT {colunmStrings} From {type.GetMappingName()} WHERE Id = {id}";
+            // 从sql缓存中获取
+            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Search);
+
+            // sql参数化
+            MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@Id", id) };
 
             using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
             {
                 MySqlCommand command = new MySqlCommand(sql, conn);
                 conn.Open();
-
+                command.Parameters.AddRange(parameters);
                 var reader = command.ExecuteReader();
                 if (reader.Read())
                 {
@@ -87,6 +94,33 @@ namespace DAL
                 }
             }
         }
+        #endregion
+
+        #endregion
+
+        #region 插入
+        public bool Insert<T>(T t) where T : BaseModel
+        {
+            Type type = typeof(T);
+
+            //string columnStrings = string.Join(",", type.GetPropertiesWithoutKey().Select(x => $"{x.GetMappingName()}"));
+            //string valueStrings = string.Join(",", type.GetPropertiesWithoutKey().Select(x => $"@{x.GetMappingName()}"));
+            //string sql = $"Insert into `{type.GetMappingName()}` ({columnStrings}) Values ({valueStrings})";
+
+            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Insert);
+            // sql参数化，防止sql注入
+            var parameters = type.GetProperties().Select(x => new MySqlParameter($"@{x.GetMappingName()}", x.GetValue(t) ?? DBNull.Value)).ToArray();
+
+            using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            {
+                MySqlCommand command = new MySqlCommand(sql, conn);
+                command.Parameters.AddRange(parameters);
+                conn.Open();
+                int result = command.ExecuteNonQuery();
+                return result == 1;
+            }
+        }
+
         #endregion
     }
 }

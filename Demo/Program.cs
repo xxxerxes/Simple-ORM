@@ -14,6 +14,9 @@ public class Program
             Company company = sqlHelper.Find<Company>(1);
             Console.WriteLine(company.Id +":"+company.Name);
 
+            bool flag = sqlHelper.Insert<Company>(company);
+            Console.WriteLine(flag);
+
         }
         catch (Exception ex)
         {
