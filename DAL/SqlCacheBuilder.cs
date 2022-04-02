@@ -13,10 +13,12 @@ namespace DAL
 
         private static string searchSql = null;
         private static string insertSql = null;
+        private static string UpdateSql = null;
 
 
         static SqlCacheBuilder()
         {
+            // Search
             {
                 Type type = typeof(T);
 
@@ -26,19 +28,26 @@ namespace DAL
                 searchSql = $@"SELECT {colunmStrings} From {type.GetMappingName()} WHERE Id = @Id";
             }
 
+            // Insert
             {
-                #region Insert
                 Type type = typeof(T);
                 string columnStrings = string.Join(",", type.GetPropertiesWithoutKey().Select(x => $"{x.GetMappingName()}"));
                 // sql参数化，防止sql注入
                 string valueStrings = string.Join(",", type.GetPropertiesWithoutKey().Select(x => $"@{x.GetMappingName()}"));
 
                 insertSql = $"Insert into `{type.GetMappingName()}` ({columnStrings}) Values ({valueStrings})";
-                #endregion
+            }
+
+            // Update
+            {
+                Type type = typeof(T);
+                string columnAndValueStrings = string.Join(",", type.GetPropertiesWithoutKey()
+                                                .Select(x => $"{x.GetMappingName()}=@{x.GetMappingName()}"));
+                UpdateSql = $"Update {type.GetMappingName()} Set {columnAndValueStrings} Where Id = @Id;";
             }
         }
 
-        public static string GetSql(SqlCacheBuilderEnum type)
+        internal static string GetSql(SqlCacheBuilderEnum type)
         {
             switch (type)
             {
@@ -46,6 +55,8 @@ namespace DAL
                     return searchSql;
                 case (SqlCacheBuilderEnum.Insert):
                     return insertSql;
+                case (SqlCacheBuilderEnum.Update):
+                    return UpdateSql;
                 default:
                     throw new Exception("Unkown SqlCacheType");
             }
@@ -53,10 +64,11 @@ namespace DAL
         }
     }
 
-    public enum SqlCacheBuilderEnum
+    internal enum SqlCacheBuilderEnum
     {
         Search,
-        Insert
+        Insert,
+        Update
     }
 }
 

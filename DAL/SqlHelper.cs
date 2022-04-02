@@ -4,6 +4,7 @@ using Framework;
 using MySql.Data.MySqlClient;
 using Framework.Mapping;
 using Framework.DBFilter;
+using Framework.Validate;
 
 namespace DAL
 {
@@ -121,6 +122,36 @@ namespace DAL
             }
         }
 
+        #endregion
+
+        #region 修改
+        public bool Update<T>(T t) where T : BaseModel
+        {
+            if (!t.NoNullValidate())
+            {
+                throw new Exception("数据校验失败");
+            }
+
+            Type type = typeof(T);
+
+            //string columnAndValueStrings = string.Join(",", type.GetPropertiesWithoutKey()
+            //    .Select(x => $"{x.GetMappingName()}=@{x.GetMappingName()}"));
+            //string sql = $"Update {type.GetMappingName()} Set {columnAndValueStrings} Where Id = @Id;";
+
+            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Update);
+
+            MySqlParameter[] parameter = type.GetPropertiesWithoutKey()
+                .Select(x => new MySqlParameter($"@{x.GetMappingName()}", x.GetValue(t) ?? DBNull.Value))
+                .Append(new MySqlParameter("@Id", t.Id)).ToArray();
+
+            using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            {
+                MySqlCommand command = new MySqlCommand(sql, conn);
+                conn.Open();
+                command.Parameters.AddRange(parameter);
+                return 1 == command.ExecuteNonQuery();
+            }
+        }
         #endregion
     }
 }

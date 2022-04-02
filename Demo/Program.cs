@@ -8,14 +8,17 @@ public class Program
     {
         try
         {
-            Console.WriteLine("*********常规单体查询*********");
 
             SqlHelper sqlHelper = new SqlHelper();
-            Company company = sqlHelper.Find<Company>(1);
+            Company company = sqlHelper.Find<Company>(2);
             Console.WriteLine(company.Id +":"+company.Name);
 
             bool flag = sqlHelper.Insert<Company>(company);
             Console.WriteLine(flag);
+
+            company.LastModifyTime = DateTime.Now;
+            bool updateFlag = sqlHelper.Update<Company>(company);
+            Console.WriteLine(updateFlag);
 
         }
         catch (Exception ex)
