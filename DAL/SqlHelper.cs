@@ -5,6 +5,8 @@ using MySql.Data.MySqlClient;
 using Framework.Mapping;
 using Framework.DBFilter;
 using Framework.Validate;
+using System.Linq.Expressions;
+using DAL.ExpressionExtend;
 
 namespace DAL
 {
@@ -54,16 +56,13 @@ namespace DAL
             //string sql = $@"SELECT {colunmStrings} From {type.GetMappingName()} WHERE Id = {id}";
 
             // 从sql缓存中获取
-            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Search);
+            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Search) + " WHERE Id = @Id";
 
             // sql参数化
             MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@Id", id) };
 
-            using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            return this.ExecuteSql<T>(sql, parameters, command =>
             {
-                MySqlCommand command = new MySqlCommand(sql, conn);
-                conn.Open();
-                command.Parameters.AddRange(parameters);
                 var reader = command.ExecuteReader();
                 if (reader.Read())
                 {
@@ -74,16 +73,6 @@ namespace DAL
                     {
                         string propName = prop.GetMappingName();
 
-                        // 空类型转换
-
-                        //if (reader[prop.Name] == DBNull.Value)
-                        //{
-                        //    prop.SetValue(t, null);
-                        //}
-                        //else
-                        //{
-                        //    prop.SetValue(t, reader[prop.Name]);
-                        //}
                         prop.SetValue(t, reader[propName] is DBNull ? null : reader[propName]);
                     }
 
@@ -93,10 +82,86 @@ namespace DAL
                 {
                     return null;
                 }
-            }
+            });
+
+            //using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            //{
+            //    MySqlCommand command = new MySqlCommand(sql, conn);
+            //    conn.Open();
+            //    command.Parameters.AddRange(parameters);
+            //    var reader = command.ExecuteReader();
+            //    if (reader.Read())
+            //    {
+            //        // 创建实体
+            //        T t = Activator.CreateInstance<T>();
+
+            //        foreach (var prop in type.GetProperties())
+            //        {
+            //            string propName = prop.GetMappingName();
+
+            //            // 空类型转换
+
+            //            //if (reader[prop.Name] == DBNull.Value)
+            //            //{
+            //            //    prop.SetValue(t, null);
+            //            //}
+            //            //else
+            //            //{
+            //            //    prop.SetValue(t, reader[prop.Name]);
+            //            //}
+            //            prop.SetValue(t, reader[propName] is DBNull ? null : reader[propName]);
+            //        }
+
+            //        return t;
+            //    }
+            //    else
+            //    {
+            //        return null;
+            //    }
+            //}
         }
         #endregion
 
+        // 条件查询
+        public T FindByCondition<T>(Expression<Func<T, bool>> expression) where T : BaseModel //泛型约束保证类型正确
+        {
+            Type type = typeof(T);
+
+            CustomExpressionVisitor visitor = new CustomExpressionVisitor();
+
+            visitor.Visit(expression);
+            string where = "where" + visitor.GetWhere();
+            Dictionary<string, string> dic = visitor.GetValuesDic();
+
+            // 从sql缓存中获取
+            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Search) + where;
+
+            // sql参数化
+            MySqlParameter[] parameters = dic.Select(x => new MySqlParameter($"@{x.Key}", x.Value)).ToArray();
+
+            return this.ExecuteSql<T>(sql, parameters, command =>
+            {
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    // 创建实体
+                    T t = Activator.CreateInstance<T>();
+
+                    foreach (var prop in type.GetProperties())
+                    {
+                        string propName = prop.GetMappingName();
+
+                        prop.SetValue(t, reader[propName] is DBNull ? null : reader[propName]);
+                    }
+
+                    return t;
+                }
+                else
+                {
+                    return null;
+                }
+            });
+        }
         #endregion
 
         #region 插入
@@ -112,14 +177,16 @@ namespace DAL
             // sql参数化，防止sql注入
             var parameters = type.GetProperties().Select(x => new MySqlParameter($"@{x.GetMappingName()}", x.GetValue(t) ?? DBNull.Value)).ToArray();
 
-            using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
-            {
-                MySqlCommand command = new MySqlCommand(sql, conn);
-                command.Parameters.AddRange(parameters);
-                conn.Open();
-                int result = command.ExecuteNonQuery();
-                return result == 1;
-            }
+            return this.ExecuteSql<bool>(sql, parameters, command => 1 == command.ExecuteNonQuery());
+
+            //using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            //{
+            //    MySqlCommand command = new MySqlCommand(sql, conn);
+            //    command.Parameters.AddRange(parameters);
+            //    conn.Open();
+            //    int result = command.ExecuteNonQuery();
+            //    return result == 1;
+            //}
         }
 
         #endregion
@@ -140,18 +207,51 @@ namespace DAL
 
             string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Update);
 
-            MySqlParameter[] parameter = type.GetPropertiesWithoutKey()
+            MySqlParameter[] parameters = type.GetPropertiesWithoutKey()
                 .Select(x => new MySqlParameter($"@{x.GetMappingName()}", x.GetValue(t) ?? DBNull.Value))
                 .Append(new MySqlParameter("@Id", t.Id)).ToArray();
 
+            return this.ExecuteSql<bool>(sql, parameters, command => 1 == command.ExecuteNonQuery());
+
+            //using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            //{
+            //    MySqlCommand command = new MySqlCommand(sql, conn);
+            //    conn.Open();
+            //    command.Parameters.AddRange(parameters);
+            //    return 1 == command.ExecuteNonQuery();
+            //}
+        }
+        #endregion
+
+        #region 删除
+        public bool Delete<T>(T t) where T : BaseModel
+        {
+            Type type = typeof(T);
+            string sql = SqlCacheBuilder<T>.GetSql(SqlCacheBuilderEnum.Delete);
+            MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@Id", t.Id) };
+
+            return this.ExecuteSql<bool>(sql, parameters, command => 1 == command.ExecuteNonQuery());
+
+            //using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
+            //{
+            //    MySqlCommand command = new MySqlCommand(sql, conn);
+            //    conn.Open();
+            //    command.Parameters.AddRange(parameters);
+            //    return 1 == command.ExecuteNonQuery();
+            //}
+        }
+
+        #endregion
+
+        private S ExecuteSql<S>(string sql, MySqlParameter[] parameters, Func<MySqlCommand, S> func)
+        {
             using (MySqlConnection conn = new MySqlConnection(ConnectionStringCustomers))
             {
                 MySqlCommand command = new MySqlCommand(sql, conn);
+                command.Parameters.AddRange(parameters);
                 conn.Open();
-                command.Parameters.AddRange(parameter);
-                return 1 == command.ExecuteNonQuery();
+                return func.Invoke(command);
             }
         }
-        #endregion
     }
 }

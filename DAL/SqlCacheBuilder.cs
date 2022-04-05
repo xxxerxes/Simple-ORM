@@ -14,6 +14,7 @@ namespace DAL
         private static string searchSql = null;
         private static string insertSql = null;
         private static string UpdateSql = null;
+        private static string DeleteSql = null;
 
 
         static SqlCacheBuilder()
@@ -23,9 +24,10 @@ namespace DAL
                 Type type = typeof(T);
 
                 // 通过拓展方法获取特性里的名字
-                string colunmStrings = string.Join(",", type.GetProperties().Select(x => $"{x.GetMappingName()}"));
+                string colunmStrings = string.Join(",", type.GetProperties().Select(x => $"`{x.GetMappingName()}`"));
 
-                searchSql = $@"SELECT {colunmStrings} From {type.GetMappingName()} WHERE Id = @Id";
+                // searchSql = $@"SELECT {colunmStrings} From {type.GetMappingName()} WHERE Id = @Id";
+                searchSql = $@"SELECT {colunmStrings} From {type.GetMappingName()} ";
             }
 
             // Insert
@@ -45,6 +47,12 @@ namespace DAL
                                                 .Select(x => $"{x.GetMappingName()}=@{x.GetMappingName()}"));
                 UpdateSql = $"Update {type.GetMappingName()} Set {columnAndValueStrings} Where Id = @Id;";
             }
+
+            // Delete
+            {
+                Type type = typeof(T);
+                DeleteSql = $"Delete From {type.GetMappingName()} where Id = @Id";
+            }
         }
 
         internal static string GetSql(SqlCacheBuilderEnum type)
@@ -57,6 +65,8 @@ namespace DAL
                     return insertSql;
                 case (SqlCacheBuilderEnum.Update):
                     return UpdateSql;
+                case (SqlCacheBuilderEnum.Delete):
+                    return DeleteSql;
                 default:
                     throw new Exception("Unkown SqlCacheType");
             }
@@ -68,7 +78,8 @@ namespace DAL
     {
         Search,
         Insert,
-        Update
+        Update,
+        Delete
     }
 }
 
